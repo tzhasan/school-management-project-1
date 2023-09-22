@@ -6,7 +6,6 @@ const HomeLayoute = () => {
   return (
     <div>
       <Home></Home>
-      <Banner2/>
     </div>
   );
 };
