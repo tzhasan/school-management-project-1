@@ -1,17 +1,14 @@
 import React from 'react';
 import Loading from '../../Shared-Component/Loading';
 import { Link } from 'react-router-dom';
+import BtnPrimary from '../../Shared-Component/Button/BtnPrimary';
 
 const Home = () => {
   return (
-    <div>
-      Home1-tzhasan
-        <Link className="border-2 p-4" to="/register">
-          Register
-        </Link>
-        <Link className="border-2 p-4" to="/login">
-          Login
-        </Link>
+    <div className="space-y-10">
+      <h1>Home1-tzhasan</h1>
+      <BtnPrimary link={"/login"} name={"Login"} />
+      <BtnPrimary link={"/register"} name={"Register"} />
       <Loading />
     </div>
   );

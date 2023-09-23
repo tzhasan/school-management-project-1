@@ -1,0 +1,3 @@
+      <BtnPrimary link={"/login"} name={"Login"} />
+<!-- 1. Primary buton use korte  -->
+
