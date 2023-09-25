@@ -52,7 +52,7 @@ const navLinks = [
 
 const Navbar = () => {
   return (
-    <div className="container mx-auto bg-[#051939] h-14 flex items-center">
+    <div className="container mx-auto bg-[#051939] h-14 flex items-center border-b-4 border-[#800505]">
       <ul className="flex items-center text-white text-[18px]">
         {navLinks.map((link, index) => (
           <li className="ml-4" key={index}>
