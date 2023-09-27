@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./register.css";
 import { useForm } from "react-hook-form";
 import BtnPrimary from "../Button/BtnPrimary";
 import { PiEyeClosed, PiEye } from "react-icons/pi";
@@ -32,7 +31,12 @@ const Register = () => {
    } = useForm();
 
   const onSubmit = (data) => {
+    const finalData = {
+      ...data,
+      age: data.age === "" ? parseInt(0) : parseInt(data.age),accountCreated: new Date
+    };
     console.log(data)
+    console.log(finalData);
     reset()
    };
   // react hook form
@@ -58,7 +62,7 @@ const Register = () => {
                 User Name <span className="text-red-600">*</span>
               </label>
               <input
-                {...register("name")}
+                {...register("name", { required: true })}
                 type="text"
                 id="name"
                 placeholder="Your Full Name"
@@ -79,10 +83,10 @@ const Register = () => {
                   focused[1] ? "text-gray-700" : "text-gray-400"
                 }`}
               >
-                Email<span className="text-red-600">*</span>
+                Email <span className="text-red-600">*</span>
               </label>
               <input
-                {...register("email")}
+                {...register("email", { required: true })}
                 type="email"
                 id="email"
                 placeholder="Your Email Address"
@@ -94,7 +98,7 @@ const Register = () => {
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:gap-2 mt-0 md:mt-6 text-center md:text-left ">
-            <div className="relative flex flex-col md:w-1/2 w-[90%] mx-auto mt-4 md:mt-0">
+            <div className=" flex flex-col md:w-1/2 w-[90%] mx-auto mt-4 md:mt-0">
               <label
                 htmlFor="password"
                 className={`text-sm sm:text-md md:text-lg   transition-transform transform  ${
@@ -105,27 +109,43 @@ const Register = () => {
                   focused[2] ? "text-gray-700" : "text-gray-400"
                 }`}
               >
-                Password<span className="text-red-600">*</span>
+                Password <span className="text-red-600">*</span>
               </label>
-              <input
-                {...register("password")}
-                type={passwordEyeBtn ? "password" : "text"}
-                id="password"
-                placeholder="Enter your password"
-                className=" border-2 rounded-lg 
+              <div className=" relative">
+                <input
+                  {...register("password", {
+                    required: true,
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters long.",
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).*$/,
+                      message:
+                        "Password must contain at least one capital letter and one special character.",
+                    },
+                  })}
+                  type={passwordEyeBtn ? "password" : "text"}
+                  id="password"
+                  placeholder="Enter your password"
+                  className=" border-2 rounded-lg w-full 
                py-[2%]  focus:border-[#051939] pl-2 outline-none text-gray-500 focus:text-gray-700"
-                onFocus={() => handleFocus(2)}
-                onBlur={() => handleBlur(2)}
-              />
-              <p
-                onClick={() => setPasswordEyeBtn(!passwordEyeBtn)}
-                className="absolute top-2/3 transform -translate-y-1/2 right-3 cursor-pointer"
-              >
-                {passwordEyeBtn ? <PiEyeClosed /> : <PiEye />}
-              </p>
+                  onFocus={() => handleFocus(2)}
+                  onBlur={() => handleBlur(2)}
+                />
+                <p
+                  onClick={() => setPasswordEyeBtn(!passwordEyeBtn)}
+                  className="absolute top-1/2 transform -translate-y-1/2 right-3 cursor-pointer"
+                >
+                  {passwordEyeBtn ? <PiEyeClosed /> : <PiEye />}
+                </p>
+              </div>
+              {errors.password && (
+                <div className="text-red-600">{errors.password.message}</div>
+              )}
             </div>
 
-            <div className="relative flex flex-col  md:w-1/2 w-[90%] mx-auto mt-4 md:mt-0">
+            <div className=" flex flex-col  md:w-1/2 w-[90%] mx-auto mt-4 md:mt-0">
               <label
                 htmlFor="confirmpassword"
                 className={`text-sm sm:text-md md:text-lg   transition-transform transform  ${
@@ -136,24 +156,36 @@ const Register = () => {
                   focused[3] ? "text-gray-700" : "text-gray-400"
                 }`}
               >
-                Confirm Password<span className="text-red-600">*</span>
+                Confirm Password <span className="text-red-600">*</span>
               </label>
-              <input
-                {...register("confirmpassword")}
-                type={passwordEyeBtn2 ? "password" : "text"}
-                id="confirmpassword"
-                placeholder="Enter Password again"
-                className="border-2 rounded-lg 
+              <div className="relative">
+                <input
+                  {...register("confirmpassword", {
+                    required: true,
+                    maxLength: 20,
+                    validate: (value) =>
+                      value === watch("password") || "Passwords don't match",
+                  })}
+                  type={passwordEyeBtn2 ? "password" : "text"}
+                  id="confirmpassword"
+                  placeholder="Enter Password again"
+                  className="border-2 rounded-lg w-full 
                py-[2%]  focus:border-[#051939] pl-2 outline-none text-gray-500 focus:text-gray-700"
-                onFocus={() => handleFocus(3)}
-                onBlur={() => handleBlur(3)}
-              />
-              <p
-                onClick={() => setPasswordEyeBtn2(!passwordEyeBtn2)}
-                className="absolute top-2/3 transform -translate-y-1/2 right-3 cursor-pointer"
-              >
-                {passwordEyeBtn2 ? <PiEyeClosed /> : <PiEye />}
-              </p>
+                  onFocus={() => handleFocus(3)}
+                  onBlur={() => handleBlur(3)}
+                />
+                <p
+                  onClick={() => setPasswordEyeBtn2(!passwordEyeBtn2)}
+                  className="absolute top-1/2 transform -translate-y-1/2 right-3 cursor-pointer"
+                >
+                  {passwordEyeBtn2 ? <PiEyeClosed /> : <PiEye />}
+                </p>
+              </div>
+              {errors.confirmpassword && (
+                <div className="text-red-600">
+                  {errors.confirmpassword.message}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:gap-2 mt-0 md:mt-6 text-center md:text-left">
@@ -206,6 +238,55 @@ const Register = () => {
                 <option value="student">Student</option>
                 <option value="parent">Parent</option>
               </select>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row md:gap-2 mt-0 md:mt-6 text-center md:text-left">
+            <div className="flex flex-col  md:w-1/2 w-[90%] mx-auto mt-4 md:mt-0">
+              <label
+                htmlFor="position"
+                className={`text-sm sm:text-md md:text-lg   transition-transform transform  ${
+                  focused[6]
+                    ? "-translate-y-2 scale-110 md:scale-105"
+                    : "translate-y-0 "
+                } duration-300 ${
+                  focused[6] ? "text-gray-700" : "text-gray-400"
+                }`}
+              >
+                Gender
+              </label>
+              <select
+                {...register("gender")}
+                id="gender"
+                className="border-2 rounded-lg py-[2%] focus:border-[#051939] pl-2 outline-none text-gray-500 focus:text-gray-700"
+                onFocus={() => handleFocus(6)}
+                onBlur={() => handleBlur(6)}
+              >
+                <option value="male">Male</option>
+                <option value="teacher">Female</option>
+                <option value="others">Others</option>
+              </select>
+            </div>
+            <div className="flex flex-col  md:w-1/2 w-[90%] mx-auto mt-4 md:mt-0">
+              <label
+                htmlFor="position"
+                className={`text-sm sm:text-md md:text-lg   transition-transform transform  ${
+                  focused[7]
+                    ? "-translate-y-2 scale-110 md:scale-105"
+                    : "translate-y-0 "
+                } duration-300 ${
+                  focused[7] ? "text-gray-700" : "text-gray-400"
+                }`}
+              >
+                Age
+              </label>
+              <input
+                {...register("age")}
+                type="number"
+                inputMode="numeric"
+                onFocus={() => handleFocus(7)}
+                onBlur={() => handleBlur(7)}
+                className="border-2 rounded-lg py-[2%] focus:border-[#051939] pl-2 outline-none text-gray-500 focus:text-gray-700"
+              />
             </div>
           </div>
           <div className="flex justify-center md:justify-end">
