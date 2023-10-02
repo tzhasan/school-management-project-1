@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import BtnPrimary from "../Button/BtnPrimary";
 import { PiEyeClosed, PiEye } from "react-icons/pi";
+import { BsFacebook, BsGoogle } from "react-icons/bs";
 
 const Register = () => {
   const [focused, setFocused] = useState([false, false]);
@@ -289,15 +290,39 @@ const Register = () => {
               />
             </div>
           </div>
-          <div className="flex justify-center md:justify-end">
+          <div className="flex justify-between items-center ">
+            <div className="text-sm sm:text-md md:text-md">
+              <span className="mr-1">Already have an account?</span>
+              <a className="text-blue-500" href="/login">
+                Click here!{" "}
+              </a>
+            </div>
             <button type="submit" className="mt-[5%] md:mt-[3%] ">
               <BtnPrimary name={"CREATE"} />
             </button>
           </div>
         </form>
+        <div>
+          <div className="my-6 w-[80%] border-1 mx-auto">
+            <hr />
+          </div>
+          <div className="my-6 text-lg sm:text-xl md:text-2xl font-semibold text-gray-600 text-center">
+            <p>Or sign in with-</p>
+          </div>
+
+          <div className="flex gap-4 justify-center">
+            <div className="text-2xl md:text-4xl">
+              <BsGoogle />
+            </div>
+            <div className="text-2xl md:text-4xl">
+              <BsFacebook />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Register;
+

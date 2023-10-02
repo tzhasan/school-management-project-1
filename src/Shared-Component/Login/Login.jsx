@@ -1,8 +1,12 @@
 import { useForm } from "react-hook-form";
 import BtnPrimary from "../Button/BtnPrimary";
 import { PiEyeClosed, PiEye } from "react-icons/pi";
-import { useState } from "react";
+import { BsFacebook, BsGoogle } from "react-icons/bs";
+import { useContext, useState } from "react";
+import './login.css'
+import { AuthContext } from "../../Providers/AuthProvider";
 const Login = () => {
+  const { user } = useContext(AuthContext)
   const [focused, setFocused] = useState([false, false]);
   const [passwordEyeBtn, setPasswordEyeBtn] = useState(true);
   const handleFocus = (index) => {
@@ -32,13 +36,13 @@ const Login = () => {
   // react hook form
   return (
     <div className="pt-[5%]">
-      <div className="md:w-[50%] w-[90%] mx-auto border-2 p-5  rounded-lg">
+      <div className="md:w-[50%] w-[90%] mx-auto border-2 p-8  rounded-lg">
         <h5 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-600 text-center my-[2%]">
           Log In
         </h5>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col text-center md:text-left ">
-            <div className="flex flex-col  md:w-1/2 w-[90%] mx-auto mt-4 md:mt-0">
+            <div className="flex flex-col    mt-4 md:mt-0">
               <label
                 htmlFor="email"
                 className={`text-sm sm:text-md md:text-lg   transition-transform transform  ${
@@ -49,7 +53,7 @@ const Login = () => {
                   focused[1] ? "text-gray-700" : "text-gray-400"
                 }`}
               >
-                Email <span className="text-red-600">*</span>
+                Email
               </label>
               <input
                 {...register("email", { required: true })}
@@ -62,7 +66,7 @@ const Login = () => {
                 onBlur={() => handleBlur(1)}
               />
             </div>
-            <div className=" flex flex-col md:w-1/2 w-[90%] mx-auto mt-4 md:mt-3">
+            <div className=" flex flex-col   mt-4 md:mt-3">
               <label
                 htmlFor="password"
                 className={`text-sm sm:text-md md:text-lg   transition-transform transform  ${
@@ -73,7 +77,7 @@ const Login = () => {
                   focused[2] ? "text-gray-700" : "text-gray-400"
                 }`}
               >
-                Password <span className="text-red-600">*</span>
+                Password
               </label>
               <div className=" relative">
                 <input
@@ -109,12 +113,36 @@ const Login = () => {
               )}
             </div>
           </div>
-          <div className="flex justify-center md:justify-end">
+          <div className="flex justify-between items-center ">
+            <div className="text-sm sm:text-md md:text-md">
+              <span className="mr-1 ">New user?</span>
+              <a className="text-blue-500 " href="/register">
+                register!{" "}
+              </a>
+              
+            </div>
             <button type="submit" className="mt-[5%] md:mt-[3%] ">
-              <BtnPrimary name={"LOG IN"} />
+              <BtnPrimary name={"CREATE"} />
             </button>
           </div>
         </form>
+        <div>
+          <div className="my-6 w-[80%] border-1 mx-auto">
+            <hr />
+          </div>
+          <div className="my-6 text-lg sm:text-xl md:text-2xl font-semibold text-gray-600 text-center">
+            <p>Or sign in with-</p>
+          </div>
+
+          <div className="flex gap-4 justify-center">
+            <div className="text-2xl md:text-4xl">
+              <BsGoogle />
+            </div>
+            <div className="text-2xl md:text-4xl">
+              <BsFacebook />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
