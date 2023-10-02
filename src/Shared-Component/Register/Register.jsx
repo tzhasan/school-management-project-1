@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import BtnPrimary from "../Button/BtnPrimary";
 import { PiEyeClosed, PiEye } from "react-icons/pi";
 import { BsFacebook, BsGoogle } from "react-icons/bs";
+import { AuthContext } from "../../Providers/AuthProvider";
 
 const Register = () => {
+  const { createAccount, user, updateUserProfile } = useContext(AuthContext);
   const [focused, setFocused] = useState([false, false]);
   const [passwordEyeBtn, setPasswordEyeBtn] = useState(true)
   const [passwordEyeBtn2, setPasswordEyeBtn2] = useState(true)
@@ -38,6 +40,27 @@ const Register = () => {
     };
     console.log(data)
     console.log(finalData);
+    const {
+      name,
+      email,
+      password,
+      address,
+      age,
+      gender,
+      position,
+      accountCreated,
+    } = finalData;
+  
+    createAccount(email, password)
+      .then((result) => {
+        updateUserProfile(name).then((result) => { 
+          alert('Updated profile')
+        })
+          .catch((error) => { console.log(error.message);})
+      })
+      .catch((error) => {
+        console.log(error.message);
+       })
     reset()
    };
   // react hook form
